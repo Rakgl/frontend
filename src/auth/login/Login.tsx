@@ -97,7 +97,7 @@ const Login = () => {
                     </form>
                     <GoogleOAuthProvider clientId="331635603301-kb43lmq76f6b1ee56753tfbas0b2pof8.apps.googleusercontent.com">
                         <div>
-                            <h2>Login with Google</h2>
+                            <h2>Login with Googles</h2>
                             <GoogleLogin
                                 onSuccess={handleLoginSuccess}
                                 onError={() => console.log('Login Failed')}
