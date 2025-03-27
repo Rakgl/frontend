@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -17,6 +16,7 @@ import AppTheme from '../../theme/AppTheme';
 import ColorModeSelect from '../../theme/ColorModeSelect';
 import './register.scss';
 import axios from 'axios';
+import { AxiosError } from 'axios';
 // import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 import {
@@ -122,13 +122,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
         return isValid;
     };
 
-    const handleLoginSuccess = (response: any) => {
-        const token = response.credential;
-        localStorage.setItem('google_token', token);
-        console.log(token);
-    };
-
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!validateInputs()) return;
 
@@ -151,10 +145,9 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             setApiError(''); // Clear any previous errors
             navigate('/login');
         } catch (err) {
-            const errorMessage =
-                err.response?.data?.message || 'Registration failed.';
-            setApiError(errorMessage);
-            console.error('Error:', err.response?.data);
+            if (err instanceof AxiosError) {
+                console.log(err.response?.data);
+            }
         }
     };
 
@@ -311,7 +304,6 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                             <Button
                                 fullWidth
                                 variant="outlined"
-                                onSuccess={handleLoginSuccess}
                                 onClick={() => alert('Sign up with Google')}
                                 startIcon={<GoogleIcon />}
                             >
